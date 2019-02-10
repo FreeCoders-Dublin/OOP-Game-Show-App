@@ -1,1 +1,2 @@
-# OOP-Game-Show-App
+# oop-gameshow-app
+ A fun "hanged" style game to learn about classes 
