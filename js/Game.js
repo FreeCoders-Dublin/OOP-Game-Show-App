@@ -28,9 +28,6 @@ class Game {
 			e.classList = 'key';
 			e.disabled = false;
 		});
-		this.missed = 0;
-		document.querySelectorAll('#scoreboard img').forEach((e) => e.setAttribute('src', 'images/liveHeart.png'));
-		document.querySelector('#help-message').innerText = 'You can also use your keyboard :-D';
 		document.querySelector('#help-message').style.color = '#4d85be';
 		document.querySelector('#overlay').style.display = 'none';
 		this.activePhrase = this.getRandomPhrase();
@@ -69,9 +66,9 @@ class Game {
 		} else if ( inputLetter.length === 0 && letter.disabled === false ) {
 			letter.disabled = true;
 			letter.classList.add('wrong');
-			this.removeLife();
 			document.querySelector('#help-message').innerText = 'Oops :-(';
 			document.querySelector('#help-message').style.color = 'IndianRed';
+			this.removeLife();
 		} else if (inputLetter.length > 0) {
 			letter.disabled = true;
 			letter.classList.add('chosen');
@@ -90,7 +87,7 @@ class Game {
 		document.querySelectorAll('#scoreboard img')[this.missed].setAttribute('src', 'images/lostHeart.png')
 		this.missed ++;
 		if (this.missed > 4) {
-			this.gameOver('lose', 'You lost the game!', 'Try Again!')
+			this.gameOver('lose', 'You lost the game!', 'Try Again!');
 		}
 	}
 
@@ -105,6 +102,7 @@ class Game {
 
 	gameOver (result, message, button) {
 		document.querySelector('#overlay').style.display = '';
+		document.querySelector('#help-message').innerText = '';
 		document.querySelector('#overlay').classList = result;
 		document.querySelector('#game-over-message').innerHTML = message;
 		document.querySelector('#btn__reset').innerHTML = button;
@@ -112,6 +110,8 @@ class Game {
 			document.querySelector('#win-counter').style.display = 'block';
 			document.querySelector('#win-number').innerHTML = this.usedIndexes.length;
 		} else if (result === 'victory' || result=== 'lose') {
+			this.missed = 0;
+			document.querySelectorAll('#scoreboard img').forEach((e) => e.setAttribute('src', 'images/liveHeart.png'));
 			document.querySelector('#win-counter').style.display = 'none';
 			this.usedIndexes = [];
 		}
