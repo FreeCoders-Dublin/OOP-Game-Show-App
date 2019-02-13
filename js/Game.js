@@ -38,7 +38,6 @@ class Game {
 		document.querySelector('#help-message').style.color = '#4d85be';
 		document.querySelector('#overlay').style.display = 'none';
 		this.activePhrase = this.getRandomPhrase();
-		console.log(this.activePhrase.phrase)
 		this.activePhrase.addPhraseToDisplay(this.activePhrase.phrase);
 	}
 
