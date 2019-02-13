@@ -4,7 +4,9 @@
 
 class Game {
 	constructor () {
+		// Stores the number of mistakes the User has made	
 		this.missed = 0;
+		// Stores all the phrases. All program adapts to any length of array.	
 		this.phrases = [
 			new Phrase('Deep Purple'),
 			new Phrase('The Rolling Stones'),
@@ -17,10 +19,15 @@ class Game {
 			new Phrase('Queen'),
 			new Phrase('The Beatles'),
 		];
+		// Stores the phrase currently printed on screen.
 		this.activePhrase = null;
+		// Stores the index of the phrases already used to ensure a new one every time
 		this.usedIndexes = [];
 	}
 
+	/* Resets all values for a new game except the lifecount since the life total remains fixed even if you win: 
+	   Title, empties phrase Unordered List, resets used keys, Help Message and removes overlay
+	   It sets the Active Phrase and prints it on the screen */
 	startGame () {
 		document.querySelector('.title').innerHTML = "Guess the Rock Band";
 		document.querySelector('#phrase ul').innerHTML = '';
@@ -35,6 +42,8 @@ class Game {
 		this.activePhrase.addPhraseToDisplay(this.activePhrase.phrase);
 	}
 
+	/* Gets a random phrase that is always different from the previous one and pushes it on the usedIndexes array
+	   It also calls the randomColor method to change the background every game */	
 	getRandomPhrase () {
 		let newIndex;
 		do {
@@ -45,6 +54,7 @@ class Game {
 		return this.phrases[newIndex];
 	}
 
+	/* Creates a random hex color in the brightest range of colors */
 	getRandomColor() {
 		var hexValues = "ABCD";
 		var color = "#";
@@ -54,6 +64,9 @@ class Game {
 		return color;
 	}
 
+	/* It receives the element of the key as an argument both from click or keypress
+	and handles right or wrong guesses, disabling the key and checking at the end
+	if the user fulfilled requirements for a win or a "Victory" (guessing all words) */
 	handleInteraction (letter) {
 		let inputLetter = this.activePhrase.showMatchedLetter(this.activePhrase.checkLetter(letter.innerText));
 
@@ -83,14 +96,16 @@ class Game {
 		}
 	}
 
+	/* Removes a life and, if all lives are lost, runs game over method */
 	removeLife() {
 		document.querySelectorAll('#scoreboard img')[this.missed].setAttribute('src', 'images/lostHeart.png')
 		this.missed ++;
-		if (this.missed > 4) {
+		if (this.missed > 5) {
 			this.gameOver('lose', 'You lost the game!', 'Try Again!');
 		}
 	}
 
+	/* Verifies if customer won the game if all letters are shown and creates "Victory" if all phrases were guessed */
 	checkForWin() {
 		if (!document.querySelector('.letter.hide') && this.usedIndexes.length === this.phrases.length) {
 			document.querySelector('.title').innerHTML = "You finished the game!";
@@ -100,9 +115,12 @@ class Game {
 		}
 	}
 
+	/* It sets up general resets for all results and at the end creates two different scenarios
+	based on losing or finishing the game since it empties the usedIndexes array */
 	gameOver (result, message, button) {
 		document.querySelector('#overlay').style.display = '';
-		document.querySelector('#help-message').innerText = '';
+		document.querySelector('#help-message').innerText = 'Remember you can also use your keyboard ;-)';
+		document.querySelector('#help-message').style.color = '#4d85be';
 		document.querySelector('#overlay').classList = result;
 		document.querySelector('#game-over-message').innerHTML = message;
 		document.querySelector('#btn__reset').innerHTML = button;
