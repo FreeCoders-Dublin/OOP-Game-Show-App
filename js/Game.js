@@ -100,7 +100,7 @@ class Game {
 	removeLife() {
 		document.querySelectorAll('#scoreboard img')[this.missed].setAttribute('src', 'images/lostHeart.png')
 		this.missed ++;
-		if (this.missed > 5) {
+		if (this.missed > 4) {
 			this.gameOver('lose', 'You lost the game!', 'Try Again!');
 		}
 	}
