@@ -89,7 +89,7 @@ class Game {
 		}
 
 		if (this.checkForWin() === 'win') {
-			this.gameOver('win', 'You guessed the band!', 'Continue')
+			this.gameOver('win', `You guessed ${this.activePhrase.phrase.toUpperCase()}!`, 'Continue')
 		} else if (this.checkForWin() === 'victory') {
 			this.gameOver('victory', `You guessed all ${this.phrases.length} bands!`, 'Play Again!')
 		}
